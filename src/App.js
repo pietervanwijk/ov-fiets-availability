@@ -33,7 +33,8 @@ class App extends Component {
       selection:'',
       value: '',
       suggestions: [],
-      availability: ''
+      availability: '',
+      fetchTime: ''
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
@@ -64,17 +65,18 @@ class App extends Component {
   };
 
   //update state of App class
-  onSuggestionSelected(event, { suggestion, suggestionValue, sectionIndex, method }) {
+  onSuggestionSelected = (event, { suggestion, suggestionValue, sectionIndex, method }) => {
     this.setState({ selection: suggestion });
     axios.get('http://fiets.openov.nl/locaties.json').then(response => {
-      this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes });
+      this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes, fetchTime: response.data.locaties[suggestion.code].extra.fetchTime });
     });
-    document.getElementsByClassName("availability")[0].style.display = "block";
-    document.getElementsByClassName("react-autosuggest__input")[0].blur();
-    console.log(document.getElementsByClassName("react-autosuggest__input"));
   }
 
-
+  clearSearchBox = () => {
+    document.getElementsByClassName("react-autosuggest__input")[0].value = '';
+    this.setState({ value: '' });
+    document.getElementsByClassName("availability")[0].style.display = "block";
+  }
 
   render() {
     const { value, suggestions } = this.state;
@@ -103,10 +105,11 @@ class App extends Component {
             onSuggestionSelected={this.onSuggestionSelected}
             shouldRenderSuggestions={this.shouldRenderSuggestions}
           />
+        <button onClick={this.clearSearchBox}>Toon</button>
         </div>
         <div className="availability">
-          <p>Op {station} zijn nog</p>
-          <h2 className="result">{this.state.availability}</h2>
+          <p>Op station {station} zijn</p>
+          <p className="result">{this.state.availability}</p>
           <p>OV-fietsen beschikbaar</p>
         </div>
       </div>
