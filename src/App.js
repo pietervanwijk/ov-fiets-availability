@@ -1,37 +1,31 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
-import Autosuggest from 'react-autosuggest';
+import {SearchBar} from './searchbar.js'
+
+
 
 class App extends Component {
   constructor () {
-    super() 
+    super()
     this.state = {
-      goals: ''
-    }
-    this.handleClick = this.handleClick.bind(this)
-  }
+      openOv: '',
+      station:''
+    }  }
 
-  handleClick (playerName) {
-     console.log('function triggered') 
-     axios.get('http://fiets.openov.nl/locaties.json')
-    .then(response => this.setState({goals: response.data.result[0].player_goals}))
-  }
+  // componentDidMount() {
+  //   axios.get('http://fiets.openov.nl/locaties.json')
+  //  .then(response => this.setState({openOv: response}))
+  // }
 
   render () {
     return (
       <div>
-        <div>
-          <h1>Goals {this.state.goals}</h1>
-        </div>
-        <div className='button__container'>
-          <button className='button' onClick={() => this.handleClick('van persie robin')}>Robin van Persie</button>
-        </div>
-        <div className='button__container'>
-          <button className='button' onClick={() => this.handleClick('toornstra jens')}>Jens Toornstra</button>
-        </div>
+        <SearchBar />
+        <button>Go</button>
       </div>
     )
   }
 }
+
 export default App
