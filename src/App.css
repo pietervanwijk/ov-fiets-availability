@@ -30,3 +30,71 @@
     transform: rotate(360deg);
   }
 }
+
+.body {
+  color: #003082;
+}
+
+.container {
+    max-width: 600px;
+    margin: auto;
+    width: 100%;
+    background-color: #ffc917;
+    padding: 10px 0 50px 0;
+    vertical-align: middle;
+}
+
+div#root {
+    width: 100%;
+}
+
+h1 {
+    color: #003082;
+    text-align: center;
+    padding: 20px;
+}
+
+input.react-autosuggest__input {
+    margin: auto;
+    display: block;
+    width: 300px;
+    font-size: 24px;
+    padding: 10px;
+    border:none;
+}
+
+ul.react-autosuggest__suggestions-list {
+    list-style: none;
+    margin: auto;
+    display: block;
+    width: 322px;
+    font-size: 24px;
+    padding: 0;
+    border:none;
+    background-color: white;
+}
+
+li.react-autosuggest__suggestion {
+    padding: 5px 10px;
+}
+
+li.react-autosuggest__suggestion:hover {
+    cursor: pointer;
+    background-color: #dbeef5;
+}
+
+.availability {
+    margin: auto;
+    width: 276px;
+    text-align: center;
+    display: none;
+    background-color: white;
+    font-size: 24px;
+    padding: 1px 23px;
+    margin-top: 28px;
+}
+
+p.result {
+    font-size: 48px;
+    margin: 0;
+}

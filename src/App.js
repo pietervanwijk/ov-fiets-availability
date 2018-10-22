@@ -38,9 +38,6 @@ class App extends Component {
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
 
-  componentDidMount() {
-  }
-
   shouldRenderSuggestions = (value) => {
   return value.trim().length > 1;
   }
@@ -72,7 +69,12 @@ class App extends Component {
     axios.get('http://fiets.openov.nl/locaties.json').then(response => {
       this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes });
     });
+    document.getElementsByClassName("availability")[0].style.display = "block";
+    document.getElementsByClassName("react-autosuggest__input")[0].blur();
+    console.log(document.getElementsByClassName("react-autosuggest__input"));
   }
+
+
 
   render() {
     const { value, suggestions } = this.state;
@@ -85,24 +87,28 @@ class App extends Component {
     };
 
     const station = this.state.selection.name;
-    const stationCode = this.state.selection.code;
 
     // Finally, render it!
     return (
-      <div>
-        <Autosuggest
-          suggestions={suggestions}
-          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-          getSuggestionValue={getSuggestionValue}
-          renderSuggestion={renderSuggestion}
-          inputProps={inputProps}
-          onSuggestionSelected={this.onSuggestionSelected}
-          shouldRenderSuggestions={this.shouldRenderSuggestions}
-        />
-        <p>Gekozen station: {station}</p>
-        <p>Gekozen stationscode: {stationCode}</p>
-        <p>Beschikbare fietsen: {this.state.availability}</p>
+      <div className="container">
+      <div className="search">
+        <h1>Hoeveel OV-fietsen zijn er nog?</h1>
+          <Autosuggest
+            suggestions={suggestions}
+            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+            getSuggestionValue={getSuggestionValue}
+            renderSuggestion={renderSuggestion}
+            inputProps={inputProps}
+            onSuggestionSelected={this.onSuggestionSelected}
+            shouldRenderSuggestions={this.shouldRenderSuggestions}
+          />
+        </div>
+        <div className="availability">
+          <p>Op {station} zijn nog</p>
+          <h2 className="result">{this.state.availability}</h2>
+          <p>OV-fietsen beschikbaar</p>
+        </div>
       </div>
 
     );
