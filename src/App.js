@@ -30,18 +30,16 @@ class App extends Component {
   constructor () {
     super()
     this.state = {
-      openOv: '',
-      station:'',
+      selection:'',
       value: '',
-      suggestions: []
+      suggestions: [],
+      availability: ''
     };
     this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
 
-  // componentDidMount() {
-  //   axios.get('http://fiets.openov.nl/locaties.json')
-  //  .then(response => this.setState({openOv: response}))
-  // }
+  componentDidMount() {
+  }
 
   shouldRenderSuggestions = (value) => {
   return value.trim().length > 1;
@@ -70,7 +68,10 @@ class App extends Component {
 
   //update state of App class
   onSuggestionSelected(event, { suggestion, suggestionValue, sectionIndex, method }) {
-    this.setState({ station: suggestionValue });
+    this.setState({ selection: suggestion });
+    axios.get('http://fiets.openov.nl/locaties.json').then(response => {
+      this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes });
+    });
   }
 
   render() {
@@ -82,6 +83,9 @@ class App extends Component {
       value,
       onChange: this.onChange
     };
+
+    const station = this.state.selection.name;
+    const stationCode = this.state.selection.code;
 
     // Finally, render it!
     return (
@@ -96,7 +100,9 @@ class App extends Component {
           onSuggestionSelected={this.onSuggestionSelected}
           shouldRenderSuggestions={this.shouldRenderSuggestions}
         />
-        <p>Gekozen station: {this.state.station}</p>
+        <p>Gekozen station: {station}</p>
+        <p>Gekozen stationscode: {stationCode}</p>
+        <p>Beschikbare fietsen: {this.state.availability}</p>
       </div>
 
     );
