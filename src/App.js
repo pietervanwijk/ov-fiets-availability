@@ -1,31 +1,107 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
-import {SearchBar} from './searchbar.js'
+import Autosuggest from 'react-autosuggest';
+import {stations} from './stations.js'
 
+// Teach Autosuggest how to calculate suggestions for any given input value.
+  const getSuggestions = value => {
+  const inputValue = value.trim().toLowerCase();
+  const inputLength = inputValue.length;
 
+  return inputLength === 0 ? [] : stations.filter(lang =>
+    lang.name.toLowerCase().slice(0, inputLength) === inputValue
+  );
+};
+
+// When suggestion is clicked, Autosuggest needs to populate the input
+// based on the clicked suggestion. Teach Autosuggest how to calculate the
+// input value for every given suggestion.
+const getSuggestionValue = suggestion => suggestion.name;
+
+// Use your imagination to render suggestions.
+const renderSuggestion = suggestion => (
+  <div>
+    {suggestion.name}
+  </div>
+);
 
 class App extends Component {
   constructor () {
     super()
     this.state = {
       openOv: '',
-      station:''
-    }  }
+      station:'',
+      value: '',
+      suggestions: []
+    };
+    this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
+  }
 
   // componentDidMount() {
   //   axios.get('http://fiets.openov.nl/locaties.json')
   //  .then(response => this.setState({openOv: response}))
   // }
 
-  render () {
+  shouldRenderSuggestions = (value) => {
+  return value.trim().length > 1;
+  }
+
+  onChange = (event, { newValue }) => {
+    this.setState({
+      value: newValue
+    });
+  };
+
+  // Autosuggest will call this function every time you need to update suggestions.
+  // You already implemented this logic above, so just use it.
+  onSuggestionsFetchRequested = ({ value }) => {
+    this.setState({
+      suggestions: getSuggestions(value)
+    });
+  };
+
+  // Autosuggest will call this function every time you need to clear suggestions.
+  onSuggestionsClearRequested = () => {
+    this.setState({
+      suggestions: []
+    });
+  };
+
+  //update state of App class
+  onSuggestionSelected(event, { suggestion, suggestionValue, sectionIndex, method }) {
+    this.setState({ station: suggestionValue });
+  }
+
+  render() {
+    const { value, suggestions } = this.state;
+
+    // Autosuggest will pass through all these props to the input.
+    const inputProps = {
+      placeholder: 'Zoek station',
+      value,
+      onChange: this.onChange
+    };
+
+    // Finally, render it!
     return (
       <div>
-        <SearchBar />
-        <button>Go</button>
+        <Autosuggest
+          suggestions={suggestions}
+          onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
+          onSuggestionsClearRequested={this.onSuggestionsClearRequested}
+          getSuggestionValue={getSuggestionValue}
+          renderSuggestion={renderSuggestion}
+          inputProps={inputProps}
+          onSuggestionSelected={this.onSuggestionSelected}
+          shouldRenderSuggestions={this.shouldRenderSuggestions}
+        />
+        <p>Gekozen station: {this.state.station}</p>
       </div>
-    )
+
+    );
   }
+
 }
 
 export default App
