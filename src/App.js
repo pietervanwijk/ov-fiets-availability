@@ -87,7 +87,7 @@ class App extends Component {
           <div className="container">
             <div className="search">
               <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-              <form action="#" onSubmit={this.handleSubmit}>
+              <form action="javascript:void(0);" onSubmit={this.handleSubmit}>
               <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
               <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
               <input type="submit" value="Fietsen"/>
