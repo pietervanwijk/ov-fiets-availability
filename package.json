@@ -3,12 +3,15 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "^0.18.0",
+    "connect": "^3.6.6",
     "moment": "^2.22.2",
     "react": "^16.5.2",
     "react-autosuggest": "^9.4.2",
     "react-dom": "^16.5.2",
     "react-moment": "^0.8.2",
-    "react-scripts": "2.0.5"
+    "react-scripts": "2.0.5",
+    "serve-static": "^1.13.2"
   },
   "scripts": {
     "start": "react-scripts start",
