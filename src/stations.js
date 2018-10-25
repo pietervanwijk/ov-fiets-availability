@@ -105,10 +105,6 @@ export const stations = [
   },
   {
     "name": "Amsterdam Sloterdijk",
-    "code": "ass001"
-  },
-  {
-    "name": "Amsterdam Sloterdijk",
     "code": "ass002"
   },
   {

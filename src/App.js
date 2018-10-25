@@ -90,7 +90,7 @@ class App extends Component {
               <form action="javascript:void(0);" onSubmit={this.handleSubmit}>
               <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
               <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
-              <input type="submit" value="Fietsen"/>
+              <input type="submit" value="Ga toch fietsen"/>
               </form>
             </div>
             <div id="availability" className="result-box">
@@ -110,6 +110,7 @@ class App extends Component {
         <div className="credits">
           <p><a href="mailto:pmjvanwijk@gmail.com">Feedback?</a></p>
           <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
+          <p>Data afkomstig van <a href="http://openov.nl/">openOV</a></p>
         </div>
       </div>
 
