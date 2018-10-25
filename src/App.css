@@ -31,7 +31,7 @@
   }
 }
 
-body {
+body a {
   color: #003082;
 }
 
@@ -124,5 +124,11 @@ input[type="submit"] {
     max-width: 90%;
     margin: auto;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 45px;
+}
+
+.confetti {
+  height: 1px;
+    width: 1px;
+    margin: auto;
 }

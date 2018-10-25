@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
 import {stations} from './stations.js'
+import Confetti from 'react-dom-confetti';
 
 class App extends Component {
   constructor () {
@@ -11,7 +12,8 @@ class App extends Component {
       openOvResponse: '',
       suggestions: [],
       availability: '',
-      suggestionList: []
+      suggestionList: [],
+      confetti: ""
     };
   }
 
@@ -39,15 +41,21 @@ class App extends Component {
   }
 
   handleSubmit = (e) => {
+    let availability = parseInt(this.state.openOvResponse.data.locaties[this.state.suggestions[0].code].extra.rentalBikes)
     if (this.state.suggestions.length > 0 ) {
       let station = this.state.suggestions[0];
       this.setState({
         suggestionList : [],
-        selection: station
+        selection: station,
+        availability: availability
       });
-      this.setState({ availability: this.state.openOvResponse.data.locaties[this.state.suggestions[0].code].extra.rentalBikes });
       document.getElementById("error").style.display = "none";
       document.getElementById("availability").style.display = "block";
+      if (availability > 10) {
+        this.setState({
+          confetti: true
+        })
+      }
     } else {
       document.getElementById("availability").style.display = "none";
       document.getElementById("error").style.display = "block";
@@ -64,6 +72,15 @@ class App extends Component {
   }
 
   render() {
+
+    const confettiConfig = {
+      angle: 90,
+      spread: 129,
+      startVelocity: 39,
+      elementCount: 200,
+      decay: 0.9
+    };
+
     return (
       <div>
         <div className="background">
@@ -79,6 +96,9 @@ class App extends Component {
             <div id="availability" className="result-box">
               <p>Op station {this.state.selection.name} zijn</p>
               <p className="result">{this.state.availability}</p>
+              <div className="confetti">
+                <Confetti active={this.state.confetti} config={ confettiConfig }/>
+              </div>
               <p>OV-fietsen beschikbaar</p>
             </div>
             <div id="error" className="result-box">
@@ -88,6 +108,7 @@ class App extends Component {
           </div>
         </div>
         <div className="credits">
+          <p><a href="mailto:hello@pietervanwijk.com">Feedback?</a></p>
           <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
         </div>
       </div>
