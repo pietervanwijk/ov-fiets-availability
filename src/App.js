@@ -108,7 +108,7 @@ class App extends Component {
           </div>
         </div>
         <div className="credits">
-          <p><a href="mailto:hello@pietervanwijk.com">Feedback?</a></p>
+          <p><a href="mailto:pmjvanwijk@gmail.com">Feedback?</a></p>
           <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
         </div>
       </div>
