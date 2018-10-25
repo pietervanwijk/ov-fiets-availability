@@ -1,30 +1,7 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
-import Autosuggest from 'react-autosuggest';
 import {stations} from './stations.js'
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-  const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : stations.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}
-  </div>
-);
 
 class App extends Component {
   constructor () {
@@ -34,81 +11,58 @@ class App extends Component {
       value: '',
       suggestions: [],
       availability: '',
-      fetchTime: ''
+      suggestionList: []
     };
-    this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
 
-  shouldRenderSuggestions = (value) => {
-  return value.trim().length > 1;
+  search = (e) => {
+    let query = e.target.value.toLowerCase();
+    let suggestions = stations.filter(v => v.name.toLowerCase().includes(query));
+    let suggestionList = suggestions.map(r => (
+      <li className="react-autosuggest__suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
+        {r.name}
+      </li>
+    ))
+    this.setState({
+      suggestions: suggestions,
+      suggestionList : suggestionList
+    });
   }
 
-  onChange = (event, { newValue }) => {
+  setValue = (selection) => {
+    document.getElementById("searchbox").value = selection.name;
+    document.getElementById("searchbox").focus();
     this.setState({
-      value: newValue
+      suggestionList : [],
+      suggestions: [selection]
     });
-  };
+  }
 
-  // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
+  handleSubmit = (e) => {
+    let station = this.state.suggestions[0];
     this.setState({
-      suggestions: getSuggestions(value)
+      selection: station
     });
-  };
-
-  // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
-  };
-
-  //update state of App class
-  onSuggestionSelected = (event, { suggestion, suggestionValue, sectionIndex, method }) => {
-    this.setState({ selection: suggestion });
     axios.get('http://fiets.openov.nl/locaties.json').then(response => {
-      this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes, fetchTime: response.data.locaties[suggestion.code].extra.fetchTime });
+      this.setState({ availability: response.data.locaties[this.state.suggestions[0].code].extra.rentalBikes });
     });
-  }
+    document.getElementById("availability").style.display = "block";
 
-  clearSearchBox = () => {
-    document.getElementsByClassName("react-autosuggest__input")[0].value = '';
-    this.setState({ value: '' });
-    document.getElementsByClassName("availability")[0].style.display = "block";
   }
 
   render() {
-    const { value, suggestions } = this.state;
-
-    // Autosuggest will pass through all these props to the input.
-    const inputProps = {
-      placeholder: 'Zoek station',
-      value,
-      onChange: this.onChange
-    };
-
-    const station = this.state.selection.name;
-
-    // Finally, render it!
     return (
       <div className="container">
-      <div className="search">
-        <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-          <Autosuggest
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}
-            onSuggestionSelected={this.onSuggestionSelected}
-            shouldRenderSuggestions={this.shouldRenderSuggestions}
-          />
-        <button onClick={this.clearSearchBox}>Toon</button>
+        <div className="search">
+          <h1>Hoeveel OV-fietsen zijn er nog?</h1>
+          <form action="#" onSubmit={this.handleSubmit}>
+          <input placeholder="Zoek station.." className="react-autosuggest__input" id="searchbox" onChange={this.search}/>
+          <ul className="react-autosuggest__suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
+          <input type="submit" value="Toon"/>
+          </form>
         </div>
-        <div className="availability">
-          <p>Op station {station} zijn</p>
+        <div id="availability" className="availability">
+          <p>Op station {this.state.selection.name} zijn</p>
           <p className="result">{this.state.availability}</p>
           <p>OV-fietsen beschikbaar</p>
         </div>

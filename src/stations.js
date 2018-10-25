@@ -976,7 +976,7 @@ export const stations = [
     "code": "ut019"
   },
   {
-    "name": "- Utrecht Centraal Stationsplein",
+    "name": "Utrecht Centraal Stationsplein",
     "code": "ut020"
   },
   {
