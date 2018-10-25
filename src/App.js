@@ -1,116 +1,115 @@
 import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
-import Autosuggest from 'react-autosuggest';
 import {stations} from './stations.js'
-
-// Teach Autosuggest how to calculate suggestions for any given input value.
-  const getSuggestions = value => {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-
-  return inputLength === 0 ? [] : stations.filter(lang =>
-    lang.name.toLowerCase().slice(0, inputLength) === inputValue
-  );
-};
-
-// When suggestion is clicked, Autosuggest needs to populate the input
-// based on the clicked suggestion. Teach Autosuggest how to calculate the
-// input value for every given suggestion.
-const getSuggestionValue = suggestion => suggestion.name;
-
-// Use your imagination to render suggestions.
-const renderSuggestion = suggestion => (
-  <div>
-    {suggestion.name}
-  </div>
-);
+import Confetti from 'react-dom-confetti';
 
 class App extends Component {
   constructor () {
     super()
     this.state = {
       selection:'',
-      value: '',
+      openOvResponse: '',
       suggestions: [],
       availability: '',
-      fetchTime: ''
+      suggestionList: [],
+      confetti: ""
     };
-    this.onSuggestionSelected = this.onSuggestionSelected.bind(this);
   }
 
-  shouldRenderSuggestions = (value) => {
-  return value.trim().length > 1;
+  search = (e) => {
+    let query = e.target.value.toLowerCase();
+    let suggestions = stations.filter(v => v.name.toLowerCase().includes(query));
+    let suggestionList = suggestions.map(r => (
+      <li className="suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
+        {r.name}
+      </li>
+    ))
+    this.setState({
+      suggestions: suggestions,
+      suggestionList : suggestionList
+    });
   }
 
-  onChange = (event, { newValue }) => {
+  setValue = (selection) => {
+    document.getElementById("searchbox").value = selection.name;
+    document.getElementById("searchbox").focus();
     this.setState({
-      value: newValue
+      suggestionList : [],
+      suggestions: [selection]
     });
-  };
+  }
 
-  // Autosuggest will call this function every time you need to update suggestions.
-  // You already implemented this logic above, so just use it.
-  onSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value)
-    });
-  };
+  handleSubmit = (e) => {
+    let availability = parseInt(this.state.openOvResponse.data.locaties[this.state.suggestions[0].code].extra.rentalBikes)
+    if (this.state.suggestions.length > 0 ) {
+      let station = this.state.suggestions[0];
+      this.setState({
+        suggestionList : [],
+        selection: station,
+        availability: availability
+      });
+      document.getElementById("error").style.display = "none";
+      document.getElementById("availability").style.display = "block";
+      if (availability > 10) {
+        this.setState({
+          confetti: true
+        })
+      }
+    } else {
+      document.getElementById("availability").style.display = "none";
+      document.getElementById("error").style.display = "block";
+    }
+  }
 
-  // Autosuggest will call this function every time you need to clear suggestions.
-  onSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: []
-    });
-  };
-
-  //update state of App class
-  onSuggestionSelected = (event, { suggestion, suggestionValue, sectionIndex, method }) => {
-    this.setState({ selection: suggestion });
+  componentDidMount () {
     axios.get('http://fiets.openov.nl/locaties.json').then(response => {
-      this.setState({ availability: response.data.locaties[suggestion.code].extra.rentalBikes, fetchTime: response.data.locaties[suggestion.code].extra.fetchTime });
+      this.setState({
+        openOvResponse: response
+      });
     });
-  }
 
-  clearSearchBox = () => {
-    document.getElementsByClassName("react-autosuggest__input")[0].value = '';
-    this.setState({ value: '' });
-    document.getElementsByClassName("availability")[0].style.display = "block";
   }
 
   render() {
-    const { value, suggestions } = this.state;
 
-    // Autosuggest will pass through all these props to the input.
-    const inputProps = {
-      placeholder: 'Zoek station',
-      value,
-      onChange: this.onChange
+    const confettiConfig = {
+      angle: 90,
+      spread: 129,
+      startVelocity: 39,
+      elementCount: 200,
+      decay: 0.9
     };
 
-    const station = this.state.selection.name;
-
-    // Finally, render it!
     return (
-      <div className="container">
-      <div className="search">
-        <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-          <Autosuggest
-            suggestions={suggestions}
-            onSuggestionsFetchRequested={this.onSuggestionsFetchRequested}
-            onSuggestionsClearRequested={this.onSuggestionsClearRequested}
-            getSuggestionValue={getSuggestionValue}
-            renderSuggestion={renderSuggestion}
-            inputProps={inputProps}
-            onSuggestionSelected={this.onSuggestionSelected}
-            shouldRenderSuggestions={this.shouldRenderSuggestions}
-          />
-        <button onClick={this.clearSearchBox}>Toon</button>
+      <div>
+        <div className="background">
+          <div className="container">
+            <div className="search">
+              <h1>Hoeveel OV-fietsen zijn er nog?</h1>
+              <form action="#" onSubmit={this.handleSubmit}>
+              <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
+              <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
+              <input type="submit" value="Fietsen"/>
+              </form>
+            </div>
+            <div id="availability" className="result-box">
+              <p>Op station {this.state.selection.name} zijn</p>
+              <p className="result">{this.state.availability}</p>
+              <div className="confetti">
+                <Confetti active={this.state.confetti} config={ confettiConfig }/>
+              </div>
+              <p>OV-fietsen beschikbaar</p>
+            </div>
+            <div id="error" className="result-box">
+              <p>Sorry!</p>
+              <p>Dit station hebben we niet gevonden.</p>
+            </div>
+          </div>
         </div>
-        <div className="availability">
-          <p>Op station {station} zijn</p>
-          <p className="result">{this.state.availability}</p>
-          <p>OV-fietsen beschikbaar</p>
+        <div className="credits">
+          <p><a href="mailto:hello@pietervanwijk.com">Feedback?</a></p>
+          <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
         </div>
       </div>
 
