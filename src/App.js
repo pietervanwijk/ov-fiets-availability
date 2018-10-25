@@ -8,7 +8,7 @@ class App extends Component {
     super()
     this.state = {
       selection:'',
-      value: '',
+      openOvResponse: '',
       suggestions: [],
       availability: '',
       suggestionList: []
@@ -19,7 +19,7 @@ class App extends Component {
     let query = e.target.value.toLowerCase();
     let suggestions = stations.filter(v => v.name.toLowerCase().includes(query));
     let suggestionList = suggestions.map(r => (
-      <li className="react-autosuggest__suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
+      <li className="suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
         {r.name}
       </li>
     ))
@@ -39,32 +39,56 @@ class App extends Component {
   }
 
   handleSubmit = (e) => {
-    let station = this.state.suggestions[0];
-    this.setState({
-      selection: station
-    });
+    if (this.state.suggestions.length > 0 ) {
+      let station = this.state.suggestions[0];
+      this.setState({
+        suggestionList : [],
+        selection: station
+      });
+      this.setState({ availability: this.state.openOvResponse.data.locaties[this.state.suggestions[0].code].extra.rentalBikes });
+      document.getElementById("error").style.display = "none";
+      document.getElementById("availability").style.display = "block";
+    } else {
+      document.getElementById("availability").style.display = "none";
+      document.getElementById("error").style.display = "block";
+    }
+  }
+
+  componentDidMount () {
     axios.get('http://fiets.openov.nl/locaties.json').then(response => {
-      this.setState({ availability: response.data.locaties[this.state.suggestions[0].code].extra.rentalBikes });
+      this.setState({
+        openOvResponse: response
+      });
     });
-    document.getElementById("availability").style.display = "block";
 
   }
 
   render() {
     return (
-      <div className="container">
-        <div className="search">
-          <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-          <form action="#" onSubmit={this.handleSubmit}>
-          <input placeholder="Zoek station.." className="react-autosuggest__input" id="searchbox" onChange={this.search}/>
-          <ul className="react-autosuggest__suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
-          <input type="submit" value="Toon"/>
-          </form>
+      <div>
+        <div className="background">
+          <div className="container">
+            <div className="search">
+              <h1>Hoeveel OV-fietsen zijn er nog?</h1>
+              <form action="#" onSubmit={this.handleSubmit}>
+              <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
+              <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
+              <input type="submit" value="Fietsen"/>
+              </form>
+            </div>
+            <div id="availability" className="result-box">
+              <p>Op station {this.state.selection.name} zijn</p>
+              <p className="result">{this.state.availability}</p>
+              <p>OV-fietsen beschikbaar</p>
+            </div>
+            <div id="error" className="result-box">
+              <p>Sorry!</p>
+              <p>Dit station hebben we niet gevonden.</p>
+            </div>
+          </div>
         </div>
-        <div id="availability" className="availability">
-          <p>Op station {this.state.selection.name} zijn</p>
-          <p className="result">{this.state.availability}</p>
-          <p>OV-fietsen beschikbaar</p>
+        <div className="credits">
+          <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
         </div>
       </div>
 
