@@ -2,6 +2,7 @@
   "name": "ov-fiets-availability",
   "version": "0.1.0",
   "private": true,
+  "homepage" : "http://ov-fiets.pietervanwijk.com/power-mode",
   "dependencies": {
     "axios": "^0.18.0",
     "connect": "^3.6.6",
@@ -12,8 +13,7 @@
     "react-dom": "^16.5.2",
     "react-dom-confetti": "0.0.10",
     "react-moment": "^0.8.2",
-    "react-scripts": "2.0.5",
-    "serve-static": "^1.13.2"
+    "react-scripts": "2.0.5"
   },
   "scripts": {
     "start": "react-scripts start",
