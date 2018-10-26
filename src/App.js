@@ -21,8 +21,8 @@ class App extends Component {
     let query = e.target.value.toLowerCase();
     let suggestions = stations.filter(v => v.name.toLowerCase().includes(query));
     let suggestionList = suggestions.map(r => (
-      <li className="suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
-        {r.name}
+      <li className="suggestion" key={r.code}>
+        {r.name} <span className="availability">{parseInt(this.state.openOvResponse.data.locaties[r.code].extra.rentalBikes)}</span>
       </li>
     ))
     this.setState({
@@ -67,8 +67,15 @@ class App extends Component {
       this.setState({
         openOvResponse: response
       });
+    let suggestionList = stations.map(r => (
+      <li className="suggestion" key={r.code}>
+        {r.name} <span className="availability">{parseInt(this.state.openOvResponse.data.locaties[r.code].extra.rentalBikes)}</span>
+      </li>
+    ))
+    this.setState({
+      suggestionList : suggestionList
     });
-
+    });
   }
 
   render() {
@@ -86,22 +93,12 @@ class App extends Component {
         <div className="background">
           <div className="container">
             <div className="search">
-              <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-              <form action="javascript:void(0);" onSubmit={this.handleSubmit}>
-              <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
-              <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
-              <input type="submit" value="Ga toch fietsen"/>
-              </form>
+              <input placeholder="Filter stations.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
             </div>
             <div id="availability" className="result-box">
-              <p>Op station {this.state.selection.name} zijn</p>
-              <p className="result">{this.state.availability}</p>
-              <div className="confetti">
-                <Confetti active={this.state.confetti} config={ confettiConfig }/>
-              </div>
-              <p>OV-fietsen beschikbaar</p>
+              <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
             </div>
-            <div id="error" className="result-box">
+            <div id="error" className="error-box">
               <p>Sorry!</p>
               <p>Dit station hebben we niet gevonden.</p>
             </div>
