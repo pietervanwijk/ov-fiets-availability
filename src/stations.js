@@ -544,7 +544,7 @@ export const stations = [
     "code": "hnk001"
   },
   {
-    "name": "- Holten",
+    "name": "Holten",
     "code": "hon001"
   },
   {
