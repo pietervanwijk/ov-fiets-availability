@@ -2,6 +2,11 @@ import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
 import {stations} from './stations.js'
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 export class PowerMode extends Component {
   constructor () {
@@ -58,6 +63,9 @@ export class PowerMode extends Component {
               <p>Dit station hebben we niet gevonden.</p>
             </div>
           </div>
+        </div>
+        <div className="power-mode-switch">
+          <p>Terug naar <Link className="normal-mode-button" to="/">Classic Mode</Link></p>
         </div>
       </div>
 

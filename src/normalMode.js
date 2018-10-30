@@ -3,6 +3,11 @@ import './App.css'
 import axios from 'axios'
 import {stations} from './stations.js'
 import Confetti from 'react-dom-confetti';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 export class NormalMode extends Component {
   constructor () {
@@ -106,6 +111,9 @@ export class NormalMode extends Component {
               <p>Dit station hebben we niet gevonden.</p>
             </div>
           </div>
+        </div>
+        <div className="power-mode-switch">
+          <p>Nieuw: <Link className="power-mode-button" to="/power-mode">Power Mode</Link></p>
         </div>
       </div>
 
