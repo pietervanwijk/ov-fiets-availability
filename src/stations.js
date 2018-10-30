@@ -660,12 +660,8 @@ export const stations = [
     "code": "lw001"
   },
   {
-    "name": "#VALUE!",
-    "code": "MAS001"
-  },
-  {
     "name": "Maarssen",
-    "code": "mas002"
+    "code": "MAS001"
   },
   {
     "name": "Middelburg",

@@ -90,7 +90,7 @@ export class NormalMode extends Component {
               <form action="javascript:void(0);" onSubmit={this.handleSubmit}>
               <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
               <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
-              <input type="submit" value="Fiets"/>
+              <input type="submit" value="Toon fietsen"/>
               </form>
             </div>
             <div id="availability" className="result-box">

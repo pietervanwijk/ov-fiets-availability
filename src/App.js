@@ -3,6 +3,7 @@ import './normalmode.css'
 import { NormalMode } from './normalMode.js'
 import { PowerMode } from './powerMode.js'
 
+
 class App extends Component {
   constructor () {
     super()
@@ -30,10 +31,10 @@ class App extends Component {
 
     if (powerMode) {
       module = <PowerMode />;
-      modeButton = <p>Terug naar: <a onClick={this.setNormalMode}>Classic Mode</a></p>;
+      modeButton = <p>Terug naar: <button className="normal-mode-button" onClick={this.setNormalMode}>Classic Mode</button></p>;
     } else {
       module = <NormalMode />;
-      modeButton = <p>Nieuw: <a style={{color: red, textDecoration: underline}} onClick={this.setPowerMode}>Power Mode</a></p>;
+      modeButton = <p>Nieuw: <button className="power-mode-button" onClick={this.setPowerMode}>Power Mode</button></p>;
 
     };
 

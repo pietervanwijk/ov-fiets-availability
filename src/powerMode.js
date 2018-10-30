@@ -50,7 +50,7 @@ export class PowerMode extends Component {
             <div className="search">
               <input placeholder="Filter stations.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
             </div>
-            <div id="availability" className="result-box">
+            <div id="availability">
               <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
             </div>
             <div id="error" className="error-box">

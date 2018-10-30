@@ -126,6 +126,23 @@ input[type="submit"] {
     margin-top: 45px;
 }
 
+.power-mode-button {
+    color: red;
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    padding: 0;
+}
+
+.normal-mode-button {
+    text-decoration: underline;
+    cursor: pointer;
+    font-size: 16px;
+    border: none;
+    padding: 0;
+}
+
 .confetti {
   height: 1px;
     width: 1px;
