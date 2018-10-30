@@ -3,7 +3,7 @@ import './App.css'
 import axios from 'axios'
 import {stations} from './stations.js'
 
-class PowerMode extends Component {
+export class PowerMode extends Component {
   constructor () {
     super()
     this.state = {
@@ -70,5 +70,3 @@ class PowerMode extends Component {
   }
 
 }
-
-export default App
