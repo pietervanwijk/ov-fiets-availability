@@ -1,122 +1,57 @@
 import React, { Component } from 'react'
-import './App.css'
-import axios from 'axios'
-import {stations} from './stations.js'
-import Confetti from 'react-dom-confetti';
+import './normalmode.css'
+import { NormalMode } from './normalMode.js'
+import { PowerMode } from './powerMode.js'
+
 
 class App extends Component {
   constructor () {
     super()
     this.state = {
-      selection:'',
-      openOvResponse: '',
-      suggestions: [],
-      availability: '',
-      suggestionList: [],
-      confetti: ""
-    };
-  }
-
-  search = (e) => {
-    let query = e.target.value.toLowerCase();
-    let suggestions = stations.filter(v => v.name.toLowerCase().includes(query));
-    let suggestionList = suggestions.map(r => (
-      <li className="suggestion" key={r.code} onClick={() => { this.setValue(r)}}>
-        {r.name}
-      </li>
-    ))
-    this.setState({
-      suggestions: suggestions,
-      suggestionList : suggestionList
-    });
-  }
-
-  setValue = (selection) => {
-    document.getElementById("searchbox").value = selection.name;
-    document.getElementById("searchbox").focus();
-    this.setState({
-      suggestionList : [],
-      suggestions: [selection]
-    });
-  }
-
-  handleSubmit = (e) => {
-    let availability = parseInt(this.state.openOvResponse.data.locaties[this.state.suggestions[0].code].extra.rentalBikes)
-    if (this.state.suggestions.length > 0 ) {
-      let station = this.state.suggestions[0];
-      this.setState({
-        suggestionList : [],
-        selection: station,
-        availability: availability
-      });
-      document.getElementById("error").style.display = "none";
-      document.getElementById("availability").style.display = "block";
-      if (availability > 10) {
-        this.setState({
-          confetti: true
-        })
-      }
-    } else {
-      document.getElementById("availability").style.display = "none";
-      document.getElementById("error").style.display = "block";
+      powerMode: false
     }
   }
 
-  componentDidMount () {
-    axios.get('http://fiets.openov.nl/locaties.json').then(response => {
-      this.setState({
-        openOvResponse: response
-      });
+  setPowerMode = () => {
+    this.setState({
+      powerMode: true
     });
+  }
 
+  setNormalMode = () => {
+    this.setState({
+      powerMode: false
+    });
   }
 
   render() {
+    let powerMode = this.state.powerMode;
+    let module;
+    let modeButton
 
-    const confettiConfig = {
-      angle: 90,
-      spread: 129,
-      startVelocity: 39,
-      elementCount: 200,
-      decay: 0.9
+    if (powerMode) {
+      module = <PowerMode />;
+      modeButton = <p>Terug naar: <button className="normal-mode-button" onClick={this.setNormalMode}>Classic Mode</button></p>;
+    } else {
+      module = <NormalMode />;
+      modeButton = <p>Nieuw: <button className="power-mode-button" onClick={this.setPowerMode}>Power Mode</button></p>;
+
     };
 
     return (
       <div>
-        <div className="background">
-          <div className="container">
-            <div className="search">
-              <h1>Hoeveel OV-fietsen zijn er nog?</h1>
-              <form action="javascript:void(0);" onSubmit={this.handleSubmit}>
-              <input placeholder="Zoek station.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
-              <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
-              <input type="submit" value="Ga toch fietsen"/>
-              </form>
-            </div>
-            <div id="availability" className="result-box">
-              <p>Op station {this.state.selection.name} zijn</p>
-              <p className="result">{this.state.availability}</p>
-              <div className="confetti">
-                <Confetti active={this.state.confetti} config={ confettiConfig }/>
-              </div>
-              <p>OV-fietsen beschikbaar</p>
-            </div>
-            <div id="error" className="result-box">
-              <p>Sorry!</p>
-              <p>Dit station hebben we niet gevonden.</p>
-            </div>
-          </div>
+        {module}
+        <div className="power-mode-switch">
+          {modeButton}
         </div>
         <div className="credits">
-          <p><a href="mailto:pmjvanwijk@gmail.com">Feedback?</a></p>
+          <p><a href="mailto:hello@pietervanwijk.com?subject=I%20have%20an%20idea%20to%20make%20your%20OV-fiets%20app%20better!">Feedback?</a></p>
           <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
           <p>Data afkomstig van <a href="http://openov.nl/">openOV</a></p>
         </div>
       </div>
-
-    );
-  }
-
+    )
+  };
 }
 
 export default App

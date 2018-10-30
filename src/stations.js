@@ -544,7 +544,7 @@ export const stations = [
     "code": "hnk001"
   },
   {
-    "name": "- Holten",
+    "name": "Holten",
     "code": "hon001"
   },
   {
@@ -660,12 +660,8 @@ export const stations = [
     "code": "lw001"
   },
   {
-    "name": "#VALUE!",
-    "code": "MAS001"
-  },
-  {
     "name": "Maarssen",
-    "code": "mas002"
+    "code": "MAS001"
   },
   {
     "name": "Middelburg",
