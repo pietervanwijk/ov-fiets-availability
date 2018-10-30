@@ -1,3 +1,7 @@
+p, input, ul, li {
+  font-size: 16px;
+}
+
 .App {
   text-align: center;
 }
@@ -51,14 +55,12 @@ div#root {
 h1 {
     color: #003082;
     text-align: center;
-    padding: 20px;
 }
 
 .searchbox {
     margin: auto;
     display: block;
     width: 300px;
-    font-size: 24px;
     padding: 10px;
     border:none;
     border-radius: 0;
@@ -70,7 +72,6 @@ h1 {
     margin: auto;
     display: block;
     width: 320px;
-    font-size: 24px;
     padding: 0;
     border:none;
     background-color: white;
@@ -91,7 +92,6 @@ h1 {
     text-align: center;
     display: none;
     background-color: white;
-    font-size: 24px;
     padding: 1px 23px;
     margin-top: 28px;
     max-width: 76%;
@@ -108,7 +108,6 @@ input[type="submit"] {
     background-color: #0079d3;
     color: #fff;
     box-shadow: inset 0 -0.125rem 0 #005ca0;
-    font-size: 24px;
     border: none;
     border-radius: 0;
     cursor: pointer;
@@ -120,7 +119,7 @@ input[type="submit"] {
     -webkit-appearance: none;
 }
 
-.credits {
+.credits, .power-mode-switch {
     max-width: 90%;
     margin: auto;
     text-align: center;

@@ -59,11 +59,6 @@ export class PowerMode extends Component {
             </div>
           </div>
         </div>
-        <div className="credits">
-          <p><a href="mailto:hello@pietervanwijk.com?subject=I%20have%20an%20idea%20to%20make%20your%20OV-fiets%20app%20better!">Feedback?</a></p>
-          <p>Gebouwd door <a href="http://pietervanwijk.com">Pieter van Wijk</a></p>
-          <p>Data afkomstig van <a href="http://openov.nl/">openOV</a></p>
-        </div>
       </div>
 
     );
