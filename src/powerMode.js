@@ -48,10 +48,14 @@ export class PowerMode extends Component {
   }
 
   render() {
+    let width = "400px";
+    let height = "400px";
+
     return (
       <div>
         <div className="background">
           <div className="container">
+            <center><p>Terug naar <Link className="normal-mode-button" to="/">Classic Mode</Link></p></center>
             <div className="search">
               <input placeholder="Filter stations.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
             </div>
@@ -63,9 +67,6 @@ export class PowerMode extends Component {
               <p>Dit station hebben we niet gevonden.</p>
             </div>
           </div>
-        </div>
-        <div className="power-mode-switch">
-          <p>Terug naar <Link className="normal-mode-button" to="/">Classic Mode</Link></p>
         </div>
       </div>
 
