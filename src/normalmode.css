@@ -1,0 +1,134 @@
+.App {
+  text-align: center;
+}
+
+.App-logo {
+  animation: App-logo-spin infinite 20s linear;
+  height: 40vmin;
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+body a {
+  color: #003082;
+}
+
+.container {
+    margin: auto;
+    width: 100%;
+    background-color: #ffc917;
+    padding-top: 10px;
+    padding-bottom: 50px;
+    vertical-align: middle;
+}
+
+div#root {
+    width: 100%;
+}
+
+h1 {
+    color: #003082;
+    text-align: center;
+    padding: 20px;
+}
+
+.searchbox {
+    margin: auto;
+    display: block;
+    width: 300px;
+    font-size: 24px;
+    padding: 10px;
+    border:none;
+    border-radius: 0;
+    max-width: 85%;
+}
+
+.suggestions-list {
+    list-style: none;
+    margin: auto;
+    display: block;
+    width: 320px;
+    font-size: 24px;
+    padding: 0;
+    border:none;
+    background-color: white;
+}
+
+.suggestion {
+    padding: 5px 10px;
+}
+
+.suggestion:hover {
+    cursor: pointer;
+    background-color: #dbeef5;
+}
+
+.result-box {
+    margin: auto;
+    width: 274px;
+    text-align: center;
+    display: none;
+    background-color: white;
+    font-size: 24px;
+    padding: 1px 23px;
+    margin-top: 28px;
+    max-width: 76%;
+}
+
+p.result {
+    font-size: 96px;
+    margin: -24px 0;
+}
+
+input[type="submit"] {
+    display: block;
+    padding: 10px;
+    background-color: #0079d3;
+    color: #fff;
+    box-shadow: inset 0 -0.125rem 0 #005ca0;
+    font-size: 24px;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    width: 320px;
+    margin: auto;
+    margin-top: 10px;
+    max-width: 91%;
+    background-image: none;
+    -webkit-appearance: none;
+}
+
+.credits {
+    max-width: 90%;
+    margin: auto;
+    text-align: center;
+    margin-top: 45px;
+}
+
+.confetti {
+  height: 1px;
+    width: 1px;
+    margin: auto;
+}

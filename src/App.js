@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import './App.css'
+import './normalmode.css'
 import { NormalMode } from './normalMode.js'
 import { PowerMode } from './powerMode.js'
 
