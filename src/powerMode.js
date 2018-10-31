@@ -50,7 +50,9 @@ export class PowerMode extends Component {
         suggestionList : suggestionList
       });
       const savedQuery = this.props.location.search.split('q=')[1];
-      document.getElementById('searchbox').value = savedQuery
+      if(savedQuery) {
+        document.getElementById('searchbox').value = savedQuery
+      }
       if(savedQuery) {
         this.search({target: {value: savedQuery}})
       }
