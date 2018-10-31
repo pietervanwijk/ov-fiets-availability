@@ -417,10 +417,6 @@ export const stations = [
   },
   {
     "name": "Goes",
-    "code": "gs001"
-  },
-  {
-    "name": "Goes",
     "code": "gs002"
   },
   {

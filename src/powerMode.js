@@ -48,9 +48,6 @@ export class PowerMode extends Component {
   }
 
   render() {
-    let width = "400px";
-    let height = "400px";
-
     return (
       <div>
         <div className="background">

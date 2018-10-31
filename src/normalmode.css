@@ -135,12 +135,18 @@ input[type="submit"] {
     padding: 0;
 }
 
-.normal-mode-button {
+.normal-mode-button, .save-button {
+    color: #003082;
     text-decoration: underline;
     cursor: pointer;
     font-size: 16px;
     border: none;
     padding: 0;
+}
+
+.save-button {
+    margin-bottom: 14px;
+    display: none;
 }
 
 .confetti {

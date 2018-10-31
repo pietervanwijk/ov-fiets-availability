@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './normalmode.css'
 import { NormalMode } from './normalMode.js'
 import { PowerMode } from './powerMode.js'
+import { withCookies } from 'react-cookie';
 import {
   BrowserRouter as Router,
   Route,
@@ -15,7 +16,7 @@ class App extends Component {
       <div>
         <Router>
           <div>
-            <Route exact path="/" component={NormalMode}/>
+            <Route exact path="/" render={() => (<NormalMode cookies={this.props.cookies}/>)}/>
             <Route path="/power-mode" component={PowerMode}/>
           </div>
         </Router>
@@ -29,4 +30,4 @@ class App extends Component {
   };
 }
 
-export default App
+export default withCookies(App);

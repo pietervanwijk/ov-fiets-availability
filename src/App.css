@@ -100,3 +100,9 @@ input[type="submit"] {
     width: 1px;
     margin: auto;
 }
+
+.save-confirmation {
+  display: none;
+  color: green;
+  margin-top:0;
+}
