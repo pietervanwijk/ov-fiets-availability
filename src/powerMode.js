@@ -33,7 +33,11 @@ export class PowerMode extends Component {
     this.setState({
       suggestionList : suggestionList
     });
-    history.push('?q=' + query)
+    if(history.location.pathname.includes("power-mode")) {
+      history.push("?q=" + query );
+    } else {
+      history.push("power-mode?q=" + query );
+    }
   }
 
   componentDidMount () {
@@ -57,7 +61,7 @@ export class PowerMode extends Component {
         this.search({target: {value: savedQuery}})
       }
     });
-  }
+}
 
   render() {
     return (
