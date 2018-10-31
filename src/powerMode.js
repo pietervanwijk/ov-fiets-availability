@@ -2,11 +2,15 @@ import React, { Component } from 'react'
 import './App.css'
 import axios from 'axios'
 import {stations} from './stations.js'
+import { createBrowserHistory } from "history";
 import {
   BrowserRouter as Router,
   Route,
-  Link
+  Link,
+  withRouter
 } from 'react-router-dom'
+
+const history = createBrowserHistory();
 
 export class PowerMode extends Component {
   constructor () {
@@ -29,6 +33,7 @@ export class PowerMode extends Component {
     this.setState({
       suggestionList : suggestionList
     });
+    history.push('?q=' + query)
   }
 
   componentDidMount () {
@@ -44,6 +49,11 @@ export class PowerMode extends Component {
       this.setState({
         suggestionList : suggestionList
       });
+      const savedQuery = this.props.location.search.split('q=')[1];
+      document.getElementById('searchbox').value = savedQuery
+      if(savedQuery) {
+        this.search({target: {value: savedQuery}})
+      }
     });
   }
 
@@ -56,6 +66,7 @@ export class PowerMode extends Component {
             <div className="search">
               <input placeholder="Filter stations.." className="searchbox" id="searchbox" onChange={this.search} autoComplete="off" />
             </div>
+
             <div id="availability">
               <ul className="suggestions-list" id="suggestions-list">{this.state.suggestionList}</ul>
             </div>
